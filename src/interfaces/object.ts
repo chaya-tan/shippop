@@ -1,10 +1,10 @@
 export interface AddressObject {
-  province: string;
-  state: string;
-  district: string;
-  postcode: string;
-  address: string;
   name: string;
+  address: string;
+  district: string;
+  state: string;
+  province: string;
+  postcode: string;
   tel: string;
 }
 
