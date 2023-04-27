@@ -1,1 +1,3 @@
-export const shippop = () => {};
+import { Shippop } from "./Shippop";
+
+export default Shippop;
