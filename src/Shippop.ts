@@ -10,6 +10,14 @@ export class Shippop {
     this.baseUrl = baseUrl;
   }
 
+  get bookingEndPoint() {
+    return `${this.baseUrl}/booking/`;
+  }
+
+  get confirmEndPoint() {
+    return `${this.baseUrl}/confirm/`;
+  }
+
   // internal API
   book() {}
   confirmPurchase() {}
