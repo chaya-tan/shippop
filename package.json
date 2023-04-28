@@ -1,6 +1,6 @@
 {
   "name": "shippop",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -13,6 +13,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "jest": "^29.5.0",
     "typescript": "^5.0.4"
   },
   "dependencies": {

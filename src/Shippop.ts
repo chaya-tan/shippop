@@ -1,5 +1,5 @@
 import axios from "axios";
-import { BookingRequest, BookingResponse } from "@interfaces/book";
+import { BookingResponse } from "@interfaces/book";
 import { BookingDataObject } from "./interfaces/book";
 
 export class Shippop {
@@ -22,7 +22,7 @@ export class Shippop {
   // internal API
   async book(
     bookingDataObjects: BookingDataObject[]
-  ): Promise<{ purchaseId: number; bookingResponseData: BookingResponse }> {
+  ): Promise<{ purchaseId: string; bookingResponseData: BookingResponse }> {
     try {
       return await axios<BookingResponse>({
         method: "post",
@@ -44,7 +44,7 @@ export class Shippop {
     }
   }
 
-  async confirmPurchase(purchaseId: number) {
+  async confirmPurchase(purchaseId: string) {
     try {
       return axios({
         method: "post",
@@ -65,6 +65,7 @@ export class Shippop {
     }
   }
 
+  // use cases
   async bookAndConfirm(
     bookingDataObjects: BookingDataObject[]
   ): Promise<BookingResponse> {
@@ -75,6 +76,32 @@ export class Shippop {
     return bookingResponseData;
   }
 
-  // use cases
-  getTrackingData() {}
+  async getTrackingNumbers(bookingDataObjects: BookingDataObject[]): Promise<{
+    purchaseId: string;
+    trackingNumbers: {
+      courierTrackingNumber: string;
+      shippopTrackingNumber: string;
+    }[];
+  }> {
+    const bookingResponse = await this.bookAndConfirm(bookingDataObjects);
+    const { status, code, data, purchase_id } = bookingResponse;
+    const bookingResponseObjects = data;
+
+    if (code === 400) {
+      throw new Error("Invalid Input Data");
+    } else if (!status) {
+      throw new Error("Unknown Error occurred");
+    }
+
+    return {
+      purchaseId: purchase_id,
+      trackingNumbers: bookingResponseObjects.map((bookingResponseObject) => {
+        const { tracking_code, courier_tracking_code } = bookingResponseObject;
+        return {
+          courierTrackingNumber: courier_tracking_code,
+          shippopTrackingNumber: tracking_code,
+        };
+      }),
+    };
+  }
 }

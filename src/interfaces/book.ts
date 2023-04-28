@@ -50,7 +50,7 @@ export interface BookingResponse {
   status: boolean;
   code: number;
   data: BookingResponseObject[];
-  purchase_id: number;
+  purchase_id: string;
   payment_url?: string;
   total_price: number;
 }
