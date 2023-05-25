@@ -1,4 +1,4 @@
-import { ParcelObject, AddressObject, ProductObject } from "@interfaces/object";
+import { ParcelObject, AddressObject, ProductObject } from "./object";
 
 export interface BookingResponseObject {
   price: number;
@@ -53,4 +53,5 @@ export interface BookingResponse {
   purchase_id: string;
   payment_url?: string;
   total_price: number;
+  message?: string;
 }

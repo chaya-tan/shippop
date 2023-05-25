@@ -1,14 +1,15 @@
 import axios from "axios";
-import { BookingResponse } from "@interfaces/book";
-import { BookingDataObject } from "./interfaces/book";
+import { BookingDataObject, BookingResponse } from "./interfaces/book";
 
 export class Shippop {
   apiKey: string;
   baseUrl: string;
+  email: string;
 
-  constructor(apiKey: string, baseUrl: string) {
+  constructor(apiKey: string, baseUrl: string, email: string) {
     this.apiKey = apiKey;
     this.baseUrl = baseUrl;
+    this.email = email;
   }
 
   get bookingEndPoint() {
@@ -21,13 +22,25 @@ export class Shippop {
 
   // internal API
   async book(
-    bookingDataObjects: BookingDataObject[]
+    bookingDataObjects: BookingDataObject[],
+    url: {
+      success: string;
+      fail: string;
+    } = {
+      success: "http://shippop.com/?success",
+      fail: "http://shippop.com/?fail",
+    }
   ): Promise<{ purchaseId: string; bookingResponseData: BookingResponse }> {
     try {
       return await axios<BookingResponse>({
         method: "post",
         url: this.bookingEndPoint,
-        data: bookingDataObjects,
+        data: {
+          api_key: this.apiKey,
+          email: this.email,
+          url,
+          data: bookingDataObjects,
+        },
       }).then((bookingResponse) => {
         const bookingResponseData = bookingResponse.data;
         const purchaseId = bookingResponse.data.purchase_id;

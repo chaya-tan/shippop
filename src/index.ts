@@ -4,13 +4,13 @@ import {
   AddressObject,
   ProductObject,
   PostOfficeObject,
-} from "@interfaces/object";
+} from "./interfaces/object";
 import {
   BookingResponseObject,
   BookingDataObject,
   BookingRequest,
   BookingResponse,
-} from "@interfaces/book";
+} from "./interfaces/book";
 
 export {
   ParcelObject,
